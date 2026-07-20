@@ -31,9 +31,9 @@ data/generate_synthetic_data.py --> data/*.json (courses, faculty, rooms, studen
                           graph/load_graph.py  -->  Neo4j (Docker)
                                           |
                      graph/queries.py (canned Cypher) <--- explain/agent.py (Ollama, function-calling)
-                                          |                          |
+                                          |                           |
                                           |                 rag/eligibility_bot.py (sentence-transformers)
-                                          v                          |
+                                          v                           |
                                        app.py (Gradio) -------------- +
 ```
 
