@@ -51,7 +51,7 @@ data/generate_synthetic_data.py --> data/*.json (courses, faculty, rooms, studen
 No paid API keys are required. If you'd rather use a real OpenAI-compatible API,
 set `OPENAI_API_KEY` in `.env` -- this is optional and off by default.
 
-## Setup (under 10 minutes) -- Docker Compose (recommended)
+## Setup using Docker Compose (recommended)
 
 Everything -- Neo4j and the app itself -- runs via Compose. Ollama stays on
 the host so the container can reach it at `host.docker.internal:11434`.
