@@ -1,0 +1,26 @@
+[
+  {
+    "id": "POL-1",
+    "text": "No faculty member may teach more than 12 hours per week of scheduled sections."
+  },
+  {
+    "id": "POL-2",
+    "text": "Lab sections must be held in lab-type rooms; lecture sections may be held in lecture halls or seminar rooms, provided room capacity is sufficient."
+  },
+  {
+    "id": "POL-3",
+    "text": "No student may be scheduled for two sections at the same day/time block. In particular, mandatory courses within the same program and year must never overlap."
+  },
+  {
+    "id": "POL-4",
+    "text": "A student may not register for a course before completing all of its listed prerequisite courses."
+  },
+  {
+    "id": "POL-5",
+    "text": "The room assigned to a section must have capacity greater than or equal to the section's estimated enrollment."
+  },
+  {
+    "id": "POL-6",
+    "text": "Faculty members may only be assigned to teach courses within their declared subject specialization(s)."
+  }
+]

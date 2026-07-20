@@ -1,0 +1,55 @@
+services:
+  neo4j:
+    image: neo4j:5-community
+    container_name: timetable-copilot-neo4j
+    ports:
+      - "7474:7474" # browser UI
+      - "7687:7687" # bolt
+    environment:
+      - NEO4J_AUTH=neo4j/password123
+      - NEO4J_PLUGINS=[]
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    container_name: timetable-copilot-app
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    ports:
+      - "7860:7860"
+    environment:
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=neo4j
+      - NEO4J_PASSWORD=password123
+      # Ollama is expected to run natively on the host (for GPU access), not in
+      # this compose file. host.docker.internal reaches it from the container;
+      # extra_hosts below makes that resolve on Linux too (Docker Desktop on
+      # Mac/Windows provides it out of the box).
+      #
+      # NOTE: intentionally hardcoded, not ${LLM_BASE_URL:-...}. Docker Compose
+      # auto-loads the project's .env for ${VAR} substitution, and that .env is
+      # written for the host (non-Docker) workflow where Ollama is at
+      # localhost:11434 -- inside this container that address doesn't reach the
+      # host, so letting it leak in here would silently break the LLM connection.
+      - LLM_BASE_URL=http://host.docker.internal:11434/v1
+      - LLM_MODEL=${LLM_MODEL:-qwen3.5:9b}
+      - LLM_API_KEY=${LLM_API_KEY:-ollama}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - DATA_SEED=${DATA_SEED:-42}
+      - GRADIO_SERVER_NAME=0.0.0.0
+      - GRADIO_SERVER_PORT=7860
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data:/app/data
+
+volumes:
+  neo4j_data:
